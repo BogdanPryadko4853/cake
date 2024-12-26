@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Admin Panel</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #ffd1dc;
+      font-family: Arial, sans-serif;
+    }
+
+    .header {
+      background-color: #922759;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .product-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .btn-primary, .btn-danger, .btn-success {
+      background-color: #ff69b4;
+      border-color: #ff69b4;
+      color: white;
+      font-weight: bold;
+    }
+
+    .btn-primary:hover, .btn-danger:hover, .btn-success:hover {
+      background-color: #922759;
+      border-color: #922759;
+      color: white;
+    }
+
+    .product-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+      text-align: center;
+      height: 400px; /* Фиксированная высота */
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-card img {
+      max-width: 100%;
+      height: 150px; /* Фиксированная высота для изображения */
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Admin Panel</h1>
+  <a href="/api/v1/categories" class="btn btn-primary">Manage Categories</a>
+</div>
+
+<div class="container mt-5">
+  <!-- Кнопка для создания нового торта -->
+  <a href="/api/v1/cakes/create" class="btn btn-success mb-3">Create New Cake</a>
+
+  <div class="row">
+    <div class="col-md-4" th:each="cake : ${cakes}">
+      <div class="product-card">
+        <h5 class="card-title" th:text="${cake.name}">Cake Name</h5>
+        <img th:src="'data:image/jpeg;base64,' + ${cake.image.imageBase64}" class="card-img-top"
+             alt="Cake Image">
+        <div class="price" th:text="${cake.price}">$10.00</div>
+        <a th:href="@{/api/v1/cakes/{id}/edit(id=${cake.id})}" class="btn btn-primary mt-3">Edit</a>
+        <form th:action="@{/api/v1/cakes/{id}/delete(id=${cake.id})}" method="post" class="d-inline">
+          <button type="submit" class="btn btn-danger mt-3">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Cake Store</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Общие стили */
+        body {
+            background-color: #ffd1dc; /* Светло-розовый фон */
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        .header {
+            background-color: #922759; /* Темно-розовый фон */
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+
+        .header-text {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        .header .nav-link {
+            color: white;
+            font-weight: bold;
+            margin: 0 15px;
+        }
+
+        .header .nav-link:hover {
+            color: #ff69b4;
+        }
+
+        .footer {
+            background-color: #ff69b4; /* Темно-розовый фон */
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        .footer a:hover {
+            color: #ffd1dc;
+        }
+
+        .footer .social-icons {
+            margin-top: 10px;
+        }
+
+        .footer .social-icons i {
+            font-size: 24px;
+            margin: 0 10px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            height: 350px; /* Фиксированная высота для одинакового размера */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .header-link {
+            color: white; /* Цвет текста */
+            text-decoration: none; /* Убираем подчеркивание */
+            font-weight: bold; /* Жирный текст */
+            cursor: pointer; /* Курсор в виде руки при наведении */
+        }
+
+        .header-link:hover {
+            color: white; /* Цвет текста остается белым при наведении */
+            text-decoration: none; /* Убираем подчеркивание при наведении */
+        }
+
+        .product-card img {
+            max-width: 100%;
+            height: 150px; /* Фиксированная высота для изображения */
+            object-fit: cover;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .product-card h5, .product-card .price {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: #ff69b4; /* Розовый цвет для названия и цены */
+        }
+
+        .btn-primary, .btn-success {
+            background-color: #ff69b4; /* Розовый цвет для кнопок */
+            border-color: #ff69b4;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover, .btn-success:hover {
+            background-color: #922759; /* Темно-розовый цвет при наведении */
+            border-color: #922759;
+            color: white;
+        }
+
+        /* Стили для бокового меню */
+        .categories-menu {
+            position: fixed;
+            top: 0;
+            right: -300px; /* Скрываем меню за пределами экрана */
+            width: 300px; /* Ширина меню */
+            height: 100%;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: right 0.3s ease-in-out;
+            z-index: 1000;
+        }
+
+        .categories-menu.open {
+            right: 0; /* Показываем меню */
+        }
+
+        .categories-menu-content {
+            padding: 20px;
+        }
+
+        .categories-menu-content h3 {
+            color: #ff69b4;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .categories-menu-content .nav-link {
+            color: #333;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .categories-menu-content .nav-link:hover {
+            color: #ff69b4;
+        }
+
+        /* Стили для пагинации */
+        .pagination .page-link {
+            background-color: #ff69b4; /* Розовый фон для переключателей */
+            color: white; /* Белый цвет текста */
+            border-color: #ff69b4; /* Розовый цвет границ */
+        }
+
+        .pagination .page-link:hover {
+            background-color: #922759; /* Темно-розовый фон при наведении */
+            border-color: #922759;
+            color: white; /* Белый цвет текста при наведении */
+        }
+
+        .pagination .page-item.active .page-link {
+            background-color: #922759; /* Темно-розовый фон для активной страницы */
+            border-color: #922759;
+            color: white; /* Белый цвет текста для активной страницы */
+        }
+
+        .popular-cakes-title {
+            color: #922759; /* Темно-розовый цвет */
+            font-weight: bold; /* Жирный текст */
+            text-align: center; /* Выравнивание по центру */
+        }
+
+        /* Стили для иконки входа */
+        .login-icon {
+            color: white;
+            font-size: 24px;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+
+        .login-icon:hover {
+            color: #ff69b4;
+        }
+
+        /* Стили для имени пользователя */
+        .user-name {
+            color: white;
+            font-size: 18px;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+        /* Стили для кнопки "Перейти в админку" */
+        .admin-button {
+            background-color: #ff69b4; /* Розовый цвет */
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-left: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .admin-button:hover {
+            background-color: #922759; /* Темно-розовый цвет при наведении */
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div class="header-text">
+            <a href="/api/v1/cakes" class="header-link">
+                <span class="cake-icon">🍰</span> Торты от Ольги
+            </a>
+        </div>
+        <div class="d-flex justify-content-center">
+            <a href="#" class="nav-link" data-toggle="modal" data-target="#aboutModal">О нас</a>
+            <a href="#" class="nav-link" data-toggle="modal" data-target="#contactModal">Контакты</a>
+            <a href="#" class="nav-link" data-toggle="modal" data-target="#orderModal">Заказать</a>
+            <button id="openCategoriesMenu" class="btn btn-primary">Категории</button>
+            <!-- Иконка входа или имя пользователя -->
+            <div th:if="${#authorization.expression('isAuthenticated()')}">
+                <span class="user-name" th:text="${#authentication.principal.username}">Имя пользователя</span>
+                <!-- Кнопка "Перейти в админку" для пользователей с ролью ADMIN -->
+                <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">
+                    <a href="/admin" class="admin-button">Перейти в админку</a>
+                </div>
+            </div>
+            <div th:unless="${#authorization.expression('isAuthenticated()')}">
+                <a href="/api/v1/register" class="login-icon">
+                    <i class="fas fa-sign-in-alt"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальные окна -->
+<div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="aboutModalLabel">О нас</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Мы — команда профессионалов, которая любит торты и создает их с любовью. Наша миссия — сделать ваш
+                    день слаще!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contactModalLabel">Контакты</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Телефон: +123 456 7890</p>
+                <p>Email: info@cakestore.com</p>
+                <p>Адрес: ул. Тортовая, 123, Город Тортов</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="orderModalLabel">Заказать торт</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Чтобы заказать торт, свяжитесь с нами по телефону или заполните форму на сайте.</p>
+                <p>Телефон: +123 456 7890</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="categoriesMenu" class="categories-menu">
+    <div class="categories-menu-content">
+        <button id="closeCategoriesMenu" class="btn btn-danger btn-sm">Закрыть</button>
+        <h3>Категории</h3>
+        <ul class="nav flex-column">
+            <li class="nav-item" th:each="category : ${categories}">
+                <a class="nav-link" th:href="@{'/api/v1/cakes/category/' + ${category.id}}" th:text="${category.name}">Категория</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/api/v1/cakes/reset">Сбросить</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <h1 class="mb-4 text-center popular-cakes-title">Популярные торты</h1>
+
+    <!-- Карточки с продуктами -->
+    <div class="row">
+        <div class="col-md-4" th:each="cake : ${cakes.content}">
+            <div class="product-card">
+                <img th:src="'data:image/jpeg;base64,' + ${cake.image.imageBase64}" class="card-img-top"
+                     alt="Cake Image">
+                <h5 class="card-title" th:text="${cake.name}">Cake Name</h5>
+                <div class="price" th:text="${cake.price}">$10.00</div>
+                <a th:href="@{/api/v1/cakes/{id}(id=${cake.id})}" class="btn btn-primary mt-3">Узнать подробнее</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Пагинация -->
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            <!-- Предыдущая страница -->
+            <li class="page-item" th:classappend="${cakes.first} ? 'disabled' : ''">
+                <a class="page-link"
+                   th:href="@{/api/v1/cakes(page=${cakes.number - 1}, size=${cakes.size})}">Previous</a>
+            </li>
+
+            <!-- Номера страниц -->
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, cakes.totalPages - 1)}"
+                th:classappend="${i == cakes.number} ? 'active' : ''">
+                <a class="page-link" th:href="@{/api/v1/cakes(page=${i}, size=${cakes.size})}" th:text="${i + 1}"></a>
+            </li>
+
+            <!-- Следующая страница -->
+            <li class="page-item" th:classappend="${cakes.last} ? 'disabled' : ''">
+                <a class="page-link" th:href="@{/api/v1/cakes(page=${cakes.number + 1}, size=${cakes.size})}">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <div class="container">
+        <p>&copy; 2023 Cake Store. All rights reserved.</p>
+        <div class="social-icons">
+            <a href="https://wa.me/1234567890" target="_blank"><i class="fab fa-whatsapp"></i></a>
+            <a href="https://t.me/your_telegram_username" target="_blank"><i class="fab fa-telegram"></i></a>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const categoriesMenu = document.getElementById("categoriesMenu");
+        const openCategoriesMenuButton = document.getElementById("openCategoriesMenu");
+        const closeCategoriesMenuButton = document.getElementById("closeCategoriesMenu");
+
+        // Открыть меню
+        openCategoriesMenuButton.addEventListener("click", function () {
+            categoriesMenu.classList.add("open");
+        });
+
+        // Закрыть меню
+        closeCategoriesMenuButton.addEventListener("click", function () {
+            categoriesMenu.classList.remove("open");
+        });
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Edit Cake</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h1 class="mt-5">Edit Cake</h1>
+
+  <!-- Форма для редактирования торта -->
+  <form th:action="@{/api/v1/cakes/{id}/update(id=${cake.id})}" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" class="form-control" id="name" name="name" th:value="${cake.name}" required>
+    </div>
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea class="form-control" id="description" name="description" required th:text="${cake.description}"></textarea>
+    </div>
+    <div class="form-group">
+      <label for="price">Price</label>
+      <input type="text" class="form-control" id="price" name="price" th:value="${cake.price}" required>
+    </div>
+    <div class="form-group">
+      <label for="image">Image</label>
+      <input type="file" class="form-control-file" id="image" name="image">
+    </div>
+    <div class="form-group">
+      <label for="categories">Categories</label>
+      <select multiple class="form-control" id="categories" name="categories" required>
+        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}" th:selected="${cake.categories.contains(category)}"></option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Update Cake</button>
+  </form>
+
+  <!-- Кнопка для возврата к списку тортов -->
+  <a href="/api/v1/cakes" class="btn btn-secondary mt-3">Back to List</a>
+</div>
+</body>
+</html>

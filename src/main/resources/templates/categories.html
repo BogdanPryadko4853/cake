@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Categories</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #ffd1dc;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            background-color: #922759;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .category-card {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .btn-primary, .btn-danger, .btn-success {
+            background-color: #ff69b4;
+            border-color: #ff69b4;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover, .btn-danger:hover, .btn-success:hover {
+            background-color: #922759;
+            border-color: #922759;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Categories</h1>
+</div>
+
+<div class="container mt-5">
+    <!-- Форма для добавления новой категории -->
+    <form action="/api/v1/categories" method="post" class="mb-3">
+        <div class="input-group">
+            <input type="text" name="name" class="form-control" placeholder="Category Name" required>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-success">Add Category</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Список категорий -->
+    <div class="row">
+        <div class="col-md-4" th:each="category : ${categories}">
+            <div class="category-card">
+                <h5 class="card-title" th:text="${category.name}">Category Name</h5>
+                <form th:action="@{/api/v1/categories/{id}(id=${category.id})}" method="post" class="d-inline">
+                    <button type="submit" class="btn btn-danger mt-3">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
