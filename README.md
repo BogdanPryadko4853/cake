@@ -50,8 +50,9 @@ The project is structured as follows:
 ## How to Run the Project
 
 ### Clone the Repository:
-bash
+
 git clone https://github.com/yourusername/cake-store.git
+
 cd cake-store
 
 ### Set Up PostgreSQL:
@@ -60,7 +61,6 @@ cd cake-store
 3. Update the application.yml file with your PostgreSQL credentials.
 
 ### Run the Application:
-bash
 ./mvnw spring-boot:run
 
 ### Access the Application:
