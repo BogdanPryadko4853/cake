@@ -1,70 +1,59 @@
-
 # Cake Store Project
 
-This is a Spring Boot project for managing a cake store. It includes features for managing cakes, categories, and user authentication. The project uses Java, Spring Boot, PostgreSQL, and Thymeleaf for rendering HTML pages.
+This is a Spring Boot project for managing a cake store, providing features for managing cakes, categories, and user authentication. The project leverages Java, Spring Boot, PostgreSQL, Thymeleaf, and Bootstrap for a user-friendly experience.
+
+## Project Overview
+
+This project is a robust cake store management application. Users can browse cakes, view details, and (for authenticated users) create accounts and manage their orders.  Administrators have a dedicated panel for managing cakes, categories, and user accounts.
+
+## Key Features
+
+*   **Cake Management:** Create, edit, and delete cakes, including their descriptions, prices, and images.
+*   **Category Management:** Create, edit, and delete cake categories.
+*   **User Authentication:** Secure user accounts with login/registration.
+*   **Admin Panel:**  A dedicated admin interface for managing the entire cake store.
+
 
 ## Technologies Used
-- **Java**: The core programming language used for backend development.
-- **Spring Boot**: Framework for building the application.
-- **PostgreSQL**: Database used for storing data.
-- **Thymeleaf**: Template engine for rendering HTML pages.
-- **Bootstrap**: CSS framework for styling the frontend.
+
+*   **Java**: Core programming language.
+*   **Spring Boot**: Framework for rapid application development.
+*   **PostgreSQL**: Relational database for data persistence.
+*   **Thymeleaf**: Templating engine for dynamic HTML generation.
+*   **Bootstrap**: CSS framework for styling the front-end.
+*    (Optional) **Spring Security**: For user authentication (highly recommended).
+
 
 ## Project Structure
-The project is structured as follows:
 
-### Controllers
-- **AdminController.java**: Handles admin-related requests.
-- **CakeController.java**: Handles cake-related requests.
-- **CategoryController.java**: Handles category-related requests.
-- **AuthController.java**: Handles authentication-related requests.
-- **RegistrationController.java**: Handles user registration.
+*   **Controllers:** Handle HTTP requests (e.g., `CakeController`, `UserController`).
+*   **Services:** Implement business logic (e.g., `CakeService`, `UserService`).
+*   **Entities:** Represent database tables (e.g., `Cake`, `User`, `Category`).
+*   **Configuration:** Spring Boot configuration files (e.g., `SecurityConfig`, `Application.properties`).
+*   **HTML Pages:** Templates for the user interface (e.g., `admin.html`, `cakes.html`).
 
-### Services
-- **CakeService.java & CakeServiceImpl.java**: Business logic for cakes.
-- **CategoryService.java & CategoryServiceImpl.java**: Business logic for categories.
-- **ImageService.java & ImageServiceImpl.java**: Handles image processing.
-- **UserService.java**: Manages user-related operations.
-
-### Entities
-- **Cake.java**: Represents a cake entity.
-- **Image.java**: Represents an image entity.
-- **Categories.java**: Represents a category entity.
-- **Role.java**: Represents a user role.
-- **User.java**: Represents a user entity.
-
-### Configuration
-- **SecurityConfig.java**: Configures Spring Security.
-- **CakeApplication.java**: Main application class.
-
-### HTML Pages
-- **admin.html**: Admin panel for managing cakes and categories.
-- **cake.html**: Displays details of a single cake.
-- **cakes.html**: Lists all cakes.
-- **categories.html**: Lists all categories.
-- **create-cake.html**: Form for creating a new cake.
-- **edit-cake.html**: Form for editing an existing cake.
-- **edit-category.html**: Form for editing an existing category.
-- **login.html**: Login page for users.
 
 ## How to Run the Project
 
-### Clone the Repository:
+### Prerequisites
 
-git clone https://github.com/yourusername/cake-store.git
+1.  Java Development Kit (JDK) 17 or higher.
+2.  Maven.
+3.  PostgreSQL database server installed and running.
 
-cd cake-store
+### Project Setup
 
-### Set Up PostgreSQL:
-1. Ensure PostgreSQL is installed and running.
-2. Create a database named cake.
-3. Update the application.yml file with your PostgreSQL credentials.
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/BogdanPryadko4853/cake
+    cd cake-store
+    ```
 
-### Run the Application:
-./mvnw spring-boot:run
+2.  Set Up PostgreSQL:
+    *   Create a database named `cakestore` (or whatever you chose in your `application.properties`).
+    *   Configure your `application.properties` or `application.yml` with the PostgreSQL connection details.
 
-### Access the Application:
-Open your browser and go to [http://localhost:8081](http://localhost:8081).
+### Running the Application
 
-## Admin Panel
-The admin panel allows administrators to manage cakes and categories. It includes features for creating, editing, and deleting cakes and categories.
+```bash
+mvn spring-boot:run
